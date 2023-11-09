@@ -71,8 +71,10 @@ public class VehicleController : ControllerBase
         else
         {
             // there is no existing list of the maker make a new list and make the new car
-            List<Vehicle> newMakeList = new List<Vehicle>();
-            newMakeList.Add(newVehicle);
+            List<Vehicle> newMakeList = new List<Vehicle>
+            {
+                newVehicle
+            };
             dealershipVehicles.Add(vehicleCreate.Make, newMakeList);
         }
 
