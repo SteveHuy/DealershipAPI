@@ -45,9 +45,55 @@ namespace api.Services
             }
 
             return searchedVehicle;
+        }
 
+        public List<Vehicle> ListVehicles(DealershipList dealershipList)
+        {
+            var id = dealershipList.DealershipId;
+            var dealerships = DealershipServices.dealerships;
+            List<Vehicle> resultList = new List<Vehicle>();
+
+            if (dealerships.ContainsKey(id))
+            {
+                Dictionary<string, List<Vehicle>> vehicleList = dealerships[id].Vehicles;
+
+
+                if (vehicleList.Count() == 0)
+                {
+                    return resultList; // No vehicles exist
+                }
+                else
+                {
+                    foreach (var make in vehicleList)
+                    {
+                        foreach (Vehicle vehicle in make.Value)
+                        {
+                            resultList.Add(vehicle);
+                        };
+                    }
+                    return resultList; // return the list of vehicles
+                }
+            }
+            else
+            {
+                return resultList; // Dealership does not exist
+            }
+        }
+
+        public string JsonSerializerList(List<Vehicle> list)
+        {
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+            };
+
+            var jsonString = JsonSerializer.Serialize(list, options);
+
+            return jsonString;
 
         }
+
+
     }
 }
 

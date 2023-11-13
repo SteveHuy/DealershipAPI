@@ -21,6 +21,7 @@ public class DealershipController : ControllerBase
     public IActionResult CreateDealership(DealershipCreate dealershipCreate)
     {
 
+
         Dealership dealership = services.CreateDealership(dealershipCreate);
 
 
@@ -32,13 +33,11 @@ public class DealershipController : ControllerBase
     [HttpPost("search-vehicle")]
     public IActionResult SearchVehicle(DealershipSearch dealershipSearch)
     {
-        var options = new JsonSerializerOptions
-        {
-            ReferenceHandler = ReferenceHandler.Preserve,
-            // other options if needed
-        };
+
 
         List<Vehicle> searchedVehicles = services.SearchDealership(dealershipSearch);
+
+
 
         if (searchedVehicles.Count == 0)
         {
@@ -46,9 +45,26 @@ public class DealershipController : ControllerBase
         }
         else
         {
-            // Serialize the list of vehicles with the Preserve reference handler
-            var jsonString = JsonSerializer.Serialize(searchedVehicles, options);
+            var jsonString = services.JsonSerializerList(searchedVehicles);
             return Ok(jsonString);
         }
     }
+
+    [HttpPost("list-vehicle")]
+    public IActionResult ListVehicle(DealershipList dealershipList)
+    {
+        List<Vehicle> listVehicles = services.ListVehicles(dealershipList);
+        if (listVehicles.Count == 0)
+        {
+            return NotFound("No vehicles could be found.");
+        }
+        else
+        {
+            var jsonString = services.JsonSerializerList(listVehicles);
+
+            return Ok(jsonString);
+        }
+    }
+
+
 }
