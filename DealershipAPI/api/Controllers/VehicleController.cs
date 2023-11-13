@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using api.Models.Vehicle;
 using api.Data;
 using api.Services;
-using System; // can remove
+using System;
+using api.Models.Dealership; // can remove
 
 namespace api.Controllers;
 
@@ -12,74 +13,63 @@ namespace api.Controllers;
 public class VehicleController : ControllerBase
 {
 
+    public static VehicleServices services = new VehicleServices();
 
 
     [HttpPost("create-car")]
     public IActionResult CreateVehicle(VehicleCreate vehicleCreate)
     {
 
-        var dealershipId = vehicleCreate.DealershipId;
-        var dealershipService = DealershipController.services;
+        bool createdVehicle = services.CreateVehicle(vehicleCreate);
 
-        var dealershipDictionary = DealershipServices.dealerships;
-
-        // check if the that dealership ID exist
-
-        if (!dealershipDictionary.ContainsKey(dealershipId))
-        { // if it does not contain the ID
-            return BadRequest($"There is no dealership with the ID {dealershipId}.");
-        }
-
-        var dealership = dealershipDictionary[dealershipId];
-
-        var dealershipVehicles = dealership.Vehicles; // dictionary of dealership vehicles
-
-        // lets create the new vehicle 
-        var make = vehicleCreate.Make;
-        var model = vehicleCreate.Model;
-        var modelYear = vehicleCreate.ModelYear;
-        var stock = vehicleCreate.Stock;
-        Vehicle newVehicle = new Vehicle(make, model, modelYear, dealershipId, dealership, stock);
-
-        // if there is already a list of that Maker within the dictionary
-        if (dealershipVehicles.ContainsKey(vehicleCreate.Make))
+        if (createdVehicle is true)
         {
-            var dealershipVehiclesMake = dealershipVehicles[vehicleCreate.Make];
+            return Ok($"Vehicle with the make {vehicleCreate.Make} and model {vehicleCreate.Model} has been added to dealership id {vehicleCreate.DealershipId}");
 
-            // see if it matches with any other vehicle with the same make
-            foreach (Vehicle vehicle in dealershipVehiclesMake)
-            {
-
-                // new vehicle 
-                var newVehicleModel = vehicleCreate.Model;
-                var newVehicleModelYear = vehicleCreate.ModelYear;
-
-                // already existing vehicle
-                var existingVehicleModel = vehicle.Model;
-                var existingVehicleModelYear = vehicle.ModelYear;
-
-                if (newVehicleModel == existingVehicleModel && newVehicleModelYear == existingVehicleModelYear)
-                {
-                    return BadRequest("This vehicle already exist within the dealership");
-                }
-
-
-            }
-            // it did not match any other cars there add the new vehicle
-            dealershipVehicles[vehicleCreate.Make].Add(newVehicle);
         }
         else
         {
-            // there is no existing list of the maker make a new list and make the new car
-            List<Vehicle> newMakeList = new List<Vehicle>
-            {
-                newVehicle
-            };
-            dealershipVehicles.Add(vehicleCreate.Make, newMakeList);
+            return BadRequest("No Vehicle was Created");
         }
 
 
-        return Ok($"Vehicle with the make {make} and model {model} has been added to dealership id {dealershipId}");
+    }
+
+        [HttpPost("remove-car")]
+    public IActionResult RemoveVehicle(VehicleRemove vehicleRemove)
+    {
+
+        bool removedVehicle = services.RemoveVehicle(vehicleRemove);
+
+        if (removedVehicle is true)
+        {
+            return Ok($"Vehicle with the make {vehicleRemove.Make} and model {vehicleRemove.Model} has been removed from dealership id {vehicleRemove.DealershipId}");
+
+        }
+        else
+        {
+            return BadRequest("Vehicle does not exist");
+        }
+
+
+    }
+
+    [HttpPost("update-stock")]
+    public IActionResult UpdateStock(VehicleStock vehicleStock)
+    {
+
+        bool stockVehicle = services.StockVehicle(vehicleStock);
+
+        if (stockVehicle is true)
+        {
+            return Ok($"Vehicle with the make {vehicleStock.Make} and model {vehicleStock.Model} stock has changed to {vehicleStock.Stock}");
+
+        }
+        else
+        {
+            return BadRequest("The vehicle does not exist");
+        }
+
 
     }
 

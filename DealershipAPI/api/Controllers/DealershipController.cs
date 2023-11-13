@@ -35,7 +35,7 @@ public class DealershipController : ControllerBase
     {
 
 
-        List<Vehicle> searchedVehicles = services.SearchDealership(dealershipSearch);
+        List<string> searchedVehicles = services.SearchDealership(dealershipSearch);
 
 
 
@@ -45,24 +45,22 @@ public class DealershipController : ControllerBase
         }
         else
         {
-            var jsonString = services.JsonSerializerList(searchedVehicles);
-            return Ok(jsonString);
+            return Ok(searchedVehicles);
         }
     }
 
     [HttpPost("list-vehicle")]
     public IActionResult ListVehicle(DealershipList dealershipList)
     {
-        List<Vehicle> listVehicles = services.ListVehicles(dealershipList);
+        List<string> listVehicles = services.ListVehicles(dealershipList);
         if (listVehicles.Count == 0)
         {
             return NotFound("No vehicles could be found.");
         }
         else
         {
-            var jsonString = services.JsonSerializerList(listVehicles);
 
-            return Ok(jsonString);
+            return Ok(listVehicles);
         }
     }
 

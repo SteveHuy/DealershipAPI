@@ -10,7 +10,7 @@ namespace api.Data
 {
         public class Vehicle
         {
-        private string _vehicleName;
+        public string vehicleDescription;
 
                 [Required]
                 [MaxLength(50)]
@@ -38,19 +38,19 @@ namespace api.Data
                         DealershipId = _DealershipId;
                         Dealership = _Dealership; 
                         Stock = _Stock;
-
+                        
 
                 }
 
 
-                public string VehicleName
+                public string VehicleDescription
                 {
                         get
                         {
-                                _vehicleName = $"{ModelYear} {Make} {Model}";
-                                return _vehicleName;
+                                vehicleDescription = $"{ModelYear} {Make} {Model} : Stock Level {Stock}";
+                                return vehicleDescription;
                         }
-                        set { _vehicleName = value; }
+                        set { vehicleDescription = value; }
                 }
 
 

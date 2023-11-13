@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Steve\\Documents\\DealershipAPI\\DealershipAPI\\api.csproj": {}
+    "/Users/stevehuynh/Documents/DealershipAPI/DealershipAPI/api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Steve\\Documents\\DealershipAPI\\DealershipAPI\\api.csproj": {
+    "/Users/stevehuynh/Documents/DealershipAPI/DealershipAPI/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Steve\\Documents\\DealershipAPI\\DealershipAPI\\api.csproj",
+        "projectUniqueName": "/Users/stevehuynh/Documents/DealershipAPI/DealershipAPI/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\Steve\\Documents\\DealershipAPI\\DealershipAPI\\api.csproj",
-        "packagesPath": "C:\\Users\\Steve\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Steve\\Documents\\DealershipAPI\\DealershipAPI\\obj\\",
+        "projectPath": "/Users/stevehuynh/Documents/DealershipAPI/DealershipAPI/api.csproj",
+        "packagesPath": "/Users/stevehuynh/.nuget/packages/",
+        "outputPath": "/Users/stevehuynh/Documents/DealershipAPI/DealershipAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Steve\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/stevehuynh/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.403/RuntimeIdentifierGraph.json"
         }
       }
     }

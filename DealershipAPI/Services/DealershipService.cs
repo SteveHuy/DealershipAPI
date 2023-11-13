@@ -28,70 +28,44 @@ namespace api.Services
             return newDealership;
         }
 
-        public List<Vehicle> SearchDealership(DealershipSearch dealershipSearch)
+        public List<string> SearchDealership(DealershipSearch dealershipSearch)
         {
             var Make = dealershipSearch.Make;
             var Model = dealershipSearch.Model;
             var DealershipId = dealershipSearch.DealershipId;
 
-            List<Vehicle> searchedVehicle = new List<Vehicle>();
+            List<string> searchedVehicles = new List<string>();
 
             if (dealerships.TryGetValue(DealershipId, out var dealership))
             {
                 if (dealership.Vehicles.TryGetValue(Make, out var vehicleMakeList))
                 {
-                    searchedVehicle.AddRange(vehicleMakeList.Where(vehicle => vehicle.Model == Model));
+                    searchedVehicles.AddRange(
+                        vehicleMakeList
+                            .Where(vehicle => vehicle.Model == Model)
+                            .Select(vehicle => vehicle.VehicleDescription)
+                    );
                 }
             }
 
-            return searchedVehicle;
+            return searchedVehicles;
         }
 
-        public List<Vehicle> ListVehicles(DealershipList dealershipList)
+        public List<string> ListVehicles(DealershipList dealershipList)
         {
-            var id = dealershipList.DealershipId;
             var dealerships = DealershipServices.dealerships;
-            List<Vehicle> resultList = new List<Vehicle>();
 
-            if (dealerships.ContainsKey(id))
+            if (dealerships.TryGetValue(dealershipList.DealershipId, out var dealership))
             {
-                Dictionary<string, List<Vehicle>> vehicleList = dealerships[id].Vehicles;
-
-
-                if (vehicleList.Count() == 0)
-                {
-                    return resultList; // No vehicles exist
-                }
-                else
-                {
-                    foreach (var make in vehicleList)
-                    {
-                        foreach (Vehicle vehicle in make.Value)
-                        {
-                            resultList.Add(vehicle);
-                        };
-                    }
-                    return resultList; // return the list of vehicles
-                }
+                var resultList = dealership.Vehicles.SelectMany(make => make.Value.Select(vehicle => vehicle.VehicleDescription)).ToList();
+                return resultList.Any() ? resultList : new List<string>(); // Return vehicles if exist, else empty list
             }
             else
             {
-                return resultList; // Dealership does not exist
+                return new List<string>(); // Dealership does not exist
             }
         }
 
-        public string JsonSerializerList(List<Vehicle> list)
-        {
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-            };
-
-            var jsonString = JsonSerializer.Serialize(list, options);
-
-            return jsonString;
-
-        }
 
 
     }
