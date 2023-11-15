@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using api.Models.Dealership;
 using api.Data;
 using api.Services;
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace api.Controllers;
 

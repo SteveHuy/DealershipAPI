@@ -1,22 +1,29 @@
 using api.Models.Dealership;
 using api.Data;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace api.Services
 {
+    /// <summary>
+    /// Service class for managing dealerships and their operations.
+    /// </summary>
     public class DealershipServices
     {
+        /// <summary>
+        /// Dictionary to store dealerships with their IDs as keys.
+        /// </summary>
         public static Dictionary<int, Dealership> dealerships = new Dictionary<int, Dealership>();
 
+        /// <summary>
+        /// Counter for generating unique IDs for new dealerships.
+        /// </summary>
         private static int nextId = 1;
 
+        /// <summary>
+        /// Creates a new dealership and adds it to the dictionary.
+        /// </summary>
+        /// <param name="dealershipCreate">Information for creating the new dealership.</param>
+        /// <returns>The newly created dealership.</returns>
         public Dealership CreateDealership(DealershipCreate dealershipCreate)
         {
             var newDealership = new Dealership(nextId, dealershipCreate.Name);
@@ -28,6 +35,11 @@ namespace api.Services
             return newDealership;
         }
 
+        /// <summary>
+        /// Searches for vehicles in a dealership based on make, model, and dealership ID.
+        /// </summary>
+        /// <param name="dealershipSearch">Search parameters including make, model, and dealership ID.</param>
+        /// <returns>List of vehicle descriptions matching the search criteria.</returns>
         public List<string> SearchDealership(DealershipSearch dealershipSearch)
         {
             var Make = dealershipSearch.Make;
@@ -51,6 +63,11 @@ namespace api.Services
             return searchedVehicles;
         }
 
+        /// <summary>
+        /// Lists vehicles in a dealership based on the dealership ID.
+        /// </summary>
+        /// <param name="dealershipList">Information including the dealership ID.</param>
+        /// <returns>List of vehicle descriptions in the specified dealership.</returns>
         public List<string> ListVehicles(DealershipList dealershipList)
         {
             var dealerships = DealershipServices.dealerships;
@@ -65,9 +82,5 @@ namespace api.Services
                 return new List<string>(); // Dealership does not exist
             }
         }
-
-
-
     }
 }
-

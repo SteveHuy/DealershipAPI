@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 
 namespace api.Data
 {
-        public class Vehicle
+    public class Vehicle
         {
-        public string vehicleDescription;
+        public string ? vehicleDescription;
 
                 [Required]
                 [MaxLength(50)]

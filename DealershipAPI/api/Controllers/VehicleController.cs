@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using api.Models.Vehicle;
-using api.Data;
 using api.Services;
-using System;
 using api.Models.Dealership; // can remove
 
 namespace api.Controllers;

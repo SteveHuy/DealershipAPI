@@ -1,31 +1,28 @@
 using api.Models.Dealership;
 using api.Models.Vehicle;
-
 using api.Data;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace api.Services
 {
+    /// <summary>
+    /// Service class for managing vehicles and their operations.
+    /// </summary>
     public class VehicleServices
     {
-
-
+        /// <summary>
+        /// Creates a new vehicle and adds it to the specified dealership's inventory.
+        /// </summary>
+        /// <param name="vehicleCreate">Information for creating the new vehicle.</param>
+        /// <returns>True if the vehicle is created and added successfully, false otherwise.</returns>
         public bool CreateVehicle(VehicleCreate vehicleCreate)
         {
             var dealershipId = vehicleCreate.DealershipId;
 
-
-
+            // Check if the dealership exists
             if (!DealershipServices.dealerships.ContainsKey(dealershipId))
             {
-                return false;
+                return false; // Dealership does not exist
             }
 
             var dealership = DealershipServices.dealerships[dealershipId];
@@ -55,6 +52,11 @@ namespace api.Services
             return true; // Vehicle created and added
         }
 
+        /// <summary>
+        /// Removes a vehicle from the specified dealership's inventory based on make, model, and model year.
+        /// </summary>
+        /// <param name="vehicleRemove">Information for removing the vehicle.</param>
+        /// <returns>True if the vehicle is found and removed successfully, false otherwise.</returns>
         public bool RemoveVehicle(VehicleRemove vehicleRemove)
         {
             var Make = vehicleRemove.Make;
@@ -72,7 +74,7 @@ namespace api.Services
                         if (vehicle.Model == Model && vehicle.ModelYear == ModelYear)
                         {
                             vehicleMakeList.RemoveAt(i);
-                            return true; // Vehicle found and either updated or removed
+                            return true; // Vehicle found and removed
                         }
                     }
                 }
@@ -81,10 +83,11 @@ namespace api.Services
             return false; // Vehicle not found
         }
 
-
-
-
-
+        /// <summary>
+        /// Updates the stock level of a vehicle in the specified dealership's inventory.
+        /// </summary>
+        /// <param name="vehicleStock">Information for updating the vehicle stock level.</param>
+        /// <returns>True if the vehicle is found and the stock level is updated successfully, false otherwise.</returns>
         public bool StockVehicle(VehicleStock vehicleStock)
         {
             var Make = vehicleStock.Make;
@@ -111,10 +114,5 @@ namespace api.Services
 
             return vehicleFound;
         }
-
-
-
-
-
     }
 }
