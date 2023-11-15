@@ -3,10 +3,6 @@
 This repository contains the source code for a comprehensive web API designed to assist car dealers in managing their car stocks efficiently ensuring each dealer does not conflict with one anothers stock. The application supports a range of essential functions aimed at simplifying stock management processes. 
 
 
-## Getting Started
-
-Provide instructions on setting up and installing your project.
-
 ### Prerequisites
 
 [.net 7] (https://dotnet.microsoft.com/en-us/)
